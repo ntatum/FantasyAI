@@ -1,0 +1,32 @@
+name: Queue agent build
+
+on:
+  issues:
+    types: [opened, labeled, edited]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  queue:
+    if: contains(github.event.issue.labels.*.name, 'agent:build')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Queue a planning job
+        env:
+          ORCHESTRATOR_URL: ${{ secrets.SUPABASE_URL }}/functions/v1/orchestrate-agents
+          ORCHESTRATOR_TOKEN: ${{ secrets.AGENT_ORCHESTRATOR_TOKEN }}
+        run: |
+          curl --fail-with-body --request POST "$ORCHESTRATOR_URL" \
+            --header "authorization: Bearer $ORCHESTRATOR_TOKEN" \
+            --header 'content-type: application/json' \
+            --data @- <<'JSON'
+          {
+            "issue_number": ${{ github.event.issue.number }},
+            "title": ${{ toJSON(github.event.issue.title) }},
+            "body": ${{ toJSON(github.event.issue.body) }},
+            "repository": "${{ github.repository }}"
+          }
+          JSON
+
