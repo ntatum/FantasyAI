@@ -1,0 +1,28 @@
+:root { color-scheme: dark; --ink: #f7f2e9; --muted: #bcb5aa; --paper: #111411; --panel: #1a211b; --lime: #d9ff5b; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 80% 10%, #273824 0, transparent 32rem), var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; text-decoration: none; }
+main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+.nav { display: flex; justify-content: space-between; align-items: center; min-height: 5rem; }
+.wordmark { font-weight: 800; letter-spacing: -0.05em; font-size: 1.4rem; }
+.hero { padding: 7rem 0 5rem; max-width: 760px; }
+.eyebrow { color: var(--lime); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+h1 { margin: .5rem 0 1.25rem; font-size: clamp(2.8rem, 8vw, 6.2rem); letter-spacing: -.07em; line-height: .92; }
+h2 { letter-spacing: -.03em; }
+.lede, .login-card > p { color: var(--muted); font-size: 1.15rem; line-height: 1.6; max-width: 640px; }
+.actions { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 2rem; }
+.button { display: inline-flex; justify-content: center; border: 1px solid var(--lime); border-radius: 99px; background: var(--lime); color: #15200d; cursor: pointer; font-weight: 800; padding: .8rem 1.1rem; }
+.button:hover { filter: brightness(.92); }
+.button:disabled { cursor: wait; opacity: .65; }
+.button-quiet { background: transparent; color: var(--ink); border-color: #566157; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-bottom: 5rem; }
+.card, .login-card { background: color-mix(in srgb, var(--panel) 92%, transparent); border: 1px solid #344037; border-radius: 1.1rem; padding: 1.4rem; }
+.card p { color: var(--muted); line-height: 1.55; }
+.login-shell { display: grid; align-content: center; gap: 2rem; min-height: 100vh; max-width: 560px; }
+.login-card h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); }
+.sign-in-form { display: grid; gap: .7rem; margin-top: 2rem; }
+label { font-weight: 700; }
+input { border: 1px solid #566157; border-radius: .6rem; background: #0d100e; color: var(--ink); font: inherit; padding: .8rem; }
+.form-status { color: var(--lime); line-height: 1.45; }
+@media (max-width: 700px) { .hero { padding-top: 4rem; } .cards { grid-template-columns: 1fr; } }
