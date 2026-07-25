@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050a14" />
+    <title>SOA.GM | FantasyAI Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand brand--side" href="#dashboard" aria-label="SOA.GM dashboard"><span class="brand-mark">SOA</span><span><strong>SOA.GM</strong><small>GENERAL MANAGER</small></span></a>
+        <nav aria-label="Primary navigation">
+          <a class="nav-link active" href="#dashboard"><span>▦</span>Dashboard</a><a class="nav-link" href="#team"><span>♙</span>My Team</a><a class="nav-link" href="#matchup"><span>⌁</span>Matchup</a><a class="nav-link" href="#league"><span>♜</span>League</a><a class="nav-link" href="#trades"><span>ϟ</span>Trade Analyzer</a><a class="nav-link" href="#waivers"><span>□</span>Waiver Assistant</a><a class="nav-link" href="#closers"><span>♨</span>Closer Tracker</a><a class="nav-link" href="#keepers"><span>▤</span>Keeper Calculator</a><a class="nav-link" href="#rankings"><span>♧</span>Dynasty Rankings</a><a class="nav-link" href="#chat"><span>▱</span>AI Chat</a>
+        </nav>
+      </aside>
+      <main id="dashboard" class="content">
+        <header class="hero"><p class="eyebrow">⚡ STRATEGY COMMAND CENTER</p><div class="title-row"><span class="brand-mark brand-mark--large">SOA</span><h1>SOA.GM</h1></div><p class="intro">Welcome back, <strong>Nathan Tatum.</strong> Pull in every league you manage — across every sport — from one command center.</p></header>
+        <section class="connect-card" aria-labelledby="connect-title"><p id="connect-title" class="eyebrow">🏈 CONNECT SLEEPER</p><form id="sleeper-form" class="connect-form"><label class="sr-only" for="sleeper-username">Sleeper username</label><input id="sleeper-username" name="username" type="text" autocomplete="username" placeholder="your Sleeper username" required /><button type="submit">Load leagues</button></form><p id="form-message" class="form-message" role="status"></p></section>
+        <section class="empty-state" aria-live="polite"><div class="gamepad">⌘</div><h2>Link your Sleeper account to begin</h2><p>Enter your Sleeper username above and SOA.GM will pull in every league you manage, across every sport.</p></section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
