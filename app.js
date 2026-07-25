@@ -1,7 +1,35 @@
 const form = document.querySelector('#sleeper-form');
 const username = document.querySelector('#sleeper-username');
 const message = document.querySelector('#form-message');
-form.addEventListener('submit', (event) => { event.preventDefault(); const value = username.value.trim(); message.textContent = `Ready to connect ${value}. Add the Sleeper sync service before enabling live league imports.`; });
+const sleeperResults = document.querySelector('#sleeper-results');
+const emptyState = document.querySelector('#empty-state');
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const value = username.value.trim();
+  const submit = form.querySelector('button');
+  submit.disabled = true;
+  sleeperResults.hidden = true;
+  message.textContent = 'Looking up your Sleeper account…';
+  try {
+    const userResponse = await fetch(`https://api.sleeper.app/v1/user/${encodeURIComponent(value)}`);
+    if (!userResponse.ok) throw new Error('User not found');
+    const user = await userResponse.json();
+    const stateResponse = await fetch('https://api.sleeper.app/v1/state/nfl');
+    const state = stateResponse.ok ? await stateResponse.json() : {};
+    const season = state.season || new Date().getFullYear();
+    const leaguesResponse = await fetch(`https://api.sleeper.app/v1/user/${user.user_id}/leagues/nfl/${season}`);
+    if (!leaguesResponse.ok) throw new Error('Leagues unavailable');
+    const leagues = await leaguesResponse.json();
+    message.textContent = `${leagues.length} current NFL league${leagues.length === 1 ? '' : 's'} found for ${user.display_name || user.username}.`;
+    sleeperResults.innerHTML = leagues.length ? leagues.map((league) => `<article class="league-card"><strong>${escapeHtml(league.name || 'Untitled league')}</strong><p>${escapeHtml(league.status || 'unknown')} · ${escapeHtml(String(league.total_rosters || 0))} teams · ${escapeHtml(String(league.season || season))}</p></article>`).join('') : '<p class="helper-text">No current NFL leagues were found for this account.</p>';
+    sleeperResults.hidden = false;
+    emptyState.hidden = true;
+  } catch (error) {
+    message.textContent = 'Unable to find that Sleeper account. Check the username and try again.';
+  } finally {
+    submit.disabled = false;
+  }
+});
 
 const espnForm = document.querySelector('#espn-form');
 const espnMessage = document.querySelector('#espn-message');
