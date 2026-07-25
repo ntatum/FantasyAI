@@ -21,7 +21,7 @@ form.addEventListener('submit', async (event) => {
     if (!leaguesResponse.ok) throw new Error('Leagues unavailable');
     const leagues = await leaguesResponse.json();
     message.textContent = `${leagues.length} current NFL league${leagues.length === 1 ? '' : 's'} found for ${user.display_name || user.username}.`;
-    sleeperResults.innerHTML = leagues.length ? leagues.map((league) => `<article class="league-card"><strong>${escapeHtml(league.name || 'Untitled league')}</strong><p>${escapeHtml(league.status || 'unknown')} · ${escapeHtml(String(league.total_rosters || 0))} teams · ${escapeHtml(String(league.season || season))}</p></article>`).join('') : '<p class="helper-text">No current NFL leagues were found for this account.</p>';
+    sleeperResults.innerHTML = leagues.length ? leagues.map((league) => `<article class="league-card"><strong>${escapeHtml(league.name || 'Untitled league')}</strong><p>NFL · ${escapeHtml(inferSleeperFormat(league))} · ${escapeHtml(league.status || 'unknown')} · ${escapeHtml(String(league.total_rosters || 0))} teams</p></article>`).join('') : '<p class="helper-text">No current NFL leagues were found for this account.</p>';
     sleeperResults.hidden = false;
     emptyState.hidden = true;
   } catch (error) {
@@ -40,6 +40,7 @@ espnForm.addEventListener('submit', async (event) => {
   const espnUsername = document.querySelector('#espn-username').value.trim();
   const leagueId = document.querySelector('#espn-league-id').value.trim();
   const sport = document.querySelector('#espn-sport').value;
+  const format = document.querySelector('#league-format').value;
   const season = document.querySelector('#espn-season').value.trim();
   const submit = espnForm.querySelector('button');
   const url = `https://fantasy.espn.com/apis/v3/games/${sport}/seasons/${season}/segments/0/leagues/${encodeURIComponent(leagueId)}?view=mTeam&view=mSettings&view=mStandings`;
@@ -55,7 +56,7 @@ espnForm.addEventListener('submit', async (event) => {
     const seasonYear = league.seasonId || season;
     espnMessage.textContent = 'League imported successfully.';
     const profile = espnUsername ? ` · Linked to ${escapeHtml(espnUsername)}` : '';
-    espnResults.innerHTML = `<strong>${escapeHtml(name)}</strong><p>${teams.length} team${teams.length === 1 ? '' : 's'} · ${escapeHtml(String(seasonYear))} season · League ID ${escapeHtml(leagueId)}${profile}</p>`;
+    espnResults.innerHTML = `<strong>${escapeHtml(name)}</strong><p>${escapeHtml(sportLabel(sport))} · ${escapeHtml(format)} · ${teams.length} team${teams.length === 1 ? '' : 's'} · ${escapeHtml(String(seasonYear))} season · League ID ${escapeHtml(leagueId)}${profile}</p>`;
     espnResults.hidden = false;
   } catch (error) {
     espnMessage.textContent = 'Unable to import that league. Confirm the ID, season, and that the league is public.';
@@ -68,4 +69,15 @@ function escapeHtml(value) {
   const element = document.createElement('div');
   element.textContent = value;
   return element.innerHTML;
+}
+
+function sportLabel(code) {
+  return ({ ffl: 'NFL', fba: 'NBA', flb: 'MLB' })[code] || code.toUpperCase();
+}
+
+function inferSleeperFormat(league) {
+  const text = `${league.name || ''} ${JSON.stringify(league.metadata || {})}`.toLowerCase();
+  if (text.includes('dynasty')) return 'Dynasty';
+  if (text.includes('keeper')) return 'Keeper';
+  return 'Redraft';
 }
