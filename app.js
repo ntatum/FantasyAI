@@ -40,7 +40,7 @@ espnForm.addEventListener('submit', async (event) => {
   const espnUsername = document.querySelector('#espn-username').value.trim();
   const leagueId = document.querySelector('#espn-league-id').value.trim();
   const sport = document.querySelector('#espn-sport').value;
-  const format = document.querySelector('#league-format').value;
+  const format = document.querySelector('input[name="format"]:checked').value;
   const season = document.querySelector('#espn-season').value.trim();
   const submit = espnForm.querySelector('button');
   const url = `https://fantasy.espn.com/apis/v3/games/${sport}/seasons/${season}/segments/0/leagues/${encodeURIComponent(leagueId)}?view=mTeam&view=mSettings&view=mStandings`;
