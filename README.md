@@ -2,6 +2,10 @@
 
 Editable source for the SOA.GM FantasyAI Manager dashboard.
 
+## Sleeper import
+
+Enter a Sleeper username to import its current NFL leagues live. The app resolves the public user profile, reads Sleeper's current NFL season, and fetches the leagues for that user. No Sleeper password or API token is required.
+
 ## Run locally
 
 This first implementation is framework-free so it can run from any static host. Open `index.html` in a browser, or serve this folder with a static web server.
