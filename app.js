@@ -9,6 +9,7 @@ const espnResults = document.querySelector('#espn-results');
 
 espnForm.addEventListener('submit', async (event) => {
   event.preventDefault();
+  const espnUsername = document.querySelector('#espn-username').value.trim();
   const leagueId = document.querySelector('#espn-league-id').value.trim();
   const sport = document.querySelector('#espn-sport').value;
   const season = document.querySelector('#espn-season').value.trim();
@@ -25,7 +26,8 @@ espnForm.addEventListener('submit', async (event) => {
     const name = league.settings?.name || league.name || 'ESPN fantasy league';
     const seasonYear = league.seasonId || season;
     espnMessage.textContent = 'League imported successfully.';
-    espnResults.innerHTML = `<strong>${escapeHtml(name)}</strong><p>${teams.length} team${teams.length === 1 ? '' : 's'} · ${escapeHtml(String(seasonYear))} season · League ID ${escapeHtml(leagueId)}</p>`;
+    const profile = espnUsername ? ` · Linked to ${escapeHtml(espnUsername)}` : '';
+    espnResults.innerHTML = `<strong>${escapeHtml(name)}</strong><p>${teams.length} team${teams.length === 1 ? '' : 's'} · ${escapeHtml(String(seasonYear))} season · League ID ${escapeHtml(leagueId)}${profile}</p>`;
     espnResults.hidden = false;
   } catch (error) {
     espnMessage.textContent = 'Unable to import that league. Confirm the ID, season, and that the league is public.';
